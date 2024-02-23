@@ -7,8 +7,11 @@ import { validateFileType } from "~/util/helper"
 import { ImagePreview } from "./image-preview"
 import { PlusIcon } from "@heroicons/react/20/solid"
 import { ArrowUpCircleIcon } from "@heroicons/react/24/outline"
+import { createClient } from "~/util/supabase/client"
+import { api } from "~/trpc/react"
 
-interface FileWithUrl {
+interface FilePreview {
+    file: File;
     name: string;
     getUrl: string
     size: number
@@ -17,7 +20,7 @@ interface FileWithUrl {
 
 // Reducer action(s)
 const addFilesToInput = () => ({
-    payload: [] as FileWithUrl[],
+    payload: [] as FilePreview[],
 })
 
 export interface InputProps
@@ -25,8 +28,9 @@ export interface InputProps
 
 const ImageUpload = forwardRef<HTMLInputElement, InputProps>(
     ({ className, ...props }, ref) => {
+        const client = createClient()
         const [dragActive, setDragActive] = useState<boolean>()
-        const [fileInput, fileDispatch] = useReducer((state: FileWithUrl[], action: ReturnType<typeof addFilesToInput>) => {
+        const [fileInput, fileDispatch] = useReducer((state: FilePreview[], action: ReturnType<typeof addFilesToInput>) => {
             if (state.length + action.payload.length > 10) {
                 // Display Toast
                 return state
@@ -47,7 +51,7 @@ const ImageUpload = forwardRef<HTMLInputElement, InputProps>(
             }
         }
 
-        function addFilesToState(files: FileWithUrl[]) {
+        function addFilesToState(files: FilePreview[]) {
             fileDispatch({ payload: files })
         }
 
@@ -71,7 +75,7 @@ const ImageUpload = forwardRef<HTMLInputElement, InputProps>(
                 const { name, size } = file
                 // Change to blob in the future
                 const getUrl = URL.createObjectURL(file)
-                return { name, size, getUrl }
+                return { name, size, getUrl, file }
             })
 
             addFilesToState(filesWithUrl);
@@ -89,6 +93,21 @@ const ImageUpload = forwardRef<HTMLInputElement, InputProps>(
             e.dataTransfer.clearData()
         }
 
+        const uploadToServer = api.image.upload.useMutation({
+            onSuccess: () => {
+                console.log('success')
+            }
+        })
+
+        function uploadImages() {
+            if (fileInput && fileInput[0]) {
+                fileInput.map(async (file) => {
+                    uploadToServer.mutate({name: file.name, file: file.file})
+        
+                })
+            }
+        }
+
         return (
             <form
                 onSubmit={(e) => e.preventDefault()}
@@ -98,8 +117,8 @@ const ImageUpload = forwardRef<HTMLInputElement, InputProps>(
                 <label
                     htmlFor="dropzone-file"
                     className={clsx(
-                        'group relative h-full flex flex-col items-center justify-center w-full aspect-video border-2 border-slate-300 border-dashed rounded-lg border-gray-600 transition',
-                        { 'border-slate-400 bg-slate-800': dragActive },
+                        'group relative h-full flex flex-col items-center justify-center w-full aspect-video border-2 border-slate-300 border-dashed rounded-lg transition',
+                        { 'border-slate-400 bg-slate-300': dragActive },
                         { 'h-fit aspect-auto': !noInput },
                         { 'items-start justify-start': !noInput },
                         { 'hover:border-gray-500 hover:bg-slate-800': noInput }
@@ -191,14 +210,14 @@ const ImageUpload = forwardRef<HTMLInputElement, InputProps>(
                                                         </th>
                                                     </tr>
                                                 </thead>
-                                                <tbody className="divide-y divide-slate-600">
+                                                <tbody className="divide-y divide-slate-300">
                                                     {fileInput.map((file, index) => (
                                                         <ImagePreview
                                                             key={index}
                                                             //   error={file.error}
                                                             url={file.getUrl}
                                                             name={file.name}
-                                                        //   size={file.size}
+                                                            size={file.size}
                                                         />
                                                     ))}
                                                 </tbody>
@@ -206,7 +225,7 @@ const ImageUpload = forwardRef<HTMLInputElement, InputProps>(
 
                                             <label
                                                 htmlFor="dropzone-file-images-present"
-                                                className="relative cursor-pointer group hover:border-gray-500 hover:bg-slate-800 transition flex justify-center py-4 border-t border-slate-600"
+                                                className="relative cursor-pointer group hover:border-gray-500 hover:bg-slate-800 transition flex justify-center py-4 border-t border-slate-300"
                                             >
                                                 <PlusIcon className="group-hover:fill-slate-400 transition stroke-1 w-12 h-12 fill-slate-500" />
                                                 <input
@@ -237,6 +256,7 @@ const ImageUpload = forwardRef<HTMLInputElement, InputProps>(
                 <button
                     type="button"
                     className="flex items-center gap-x-2 rounded-md bg-teal-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    onClick={() => uploadImages()}
                 >
                     <ArrowUpCircleIcon className="w-6" />
                     Upload Images

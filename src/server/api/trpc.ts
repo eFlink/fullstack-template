@@ -27,12 +27,10 @@ import { createClient } from "~/util/supabase/server";
  */
 export const createTRPCContext = async (opts: { headers: Headers }) => {
   const supabase = createClient()
-  const user = await supabase.auth.getUser();
   
   return {
     db,
     ...opts,
-    user,
     supabase,
   };
 };
@@ -82,14 +80,15 @@ export const createTRPCRouter = t.router;
 export const publicProcedure = t.procedure;
 
 const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
-  if (ctx.user.error) {
+  const user = await ctx.supabase.auth.getUser();
+  if (user.error) {
     throw new TRPCError({
       code: "UNAUTHORIZED"
     })
   }
   return next({
     ctx: {
-      currentUser: ctx.user
+      currentUser: user
     }
   })
 })

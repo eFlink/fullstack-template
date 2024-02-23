@@ -4,10 +4,12 @@ import Image from 'next/image'
 export function ImagePreview({
   url,
   name,
+  size,
   onClose,
 }: {
   url: string
   name: string
+  size: number
   onClose?: () => void
 }) {
       return (
@@ -45,17 +47,17 @@ export function ImagePreview({
             ) : null} */}
           </div>
         </td>
-        {/* <td
-          className={cn(
-            'px-6 py-4 whitespace-nowrap text-sm dark:text-slate-400',
-            {
-              'dark:text-red-500': error,
-            }
+        <td
+          className={clsx(
+            'px-6 py-4 whitespace-nowrap text-sm text-slate-400',
+            // {
+            //   'dark:text-red-500': error,
+            // }
           )}
         >
           {(size / 1000).toFixed(0)} KB
         </td>
-        <td className="px-6 py-4 whitespace-nowrap text-sm dark:text-slate-400 ">
+        {/* <td className="px-6 py-4 whitespace-nowrap text-sm dark:text-slate-400 ">
           <Progress
             className={cn('w-full h-2')}
             value={progress}
