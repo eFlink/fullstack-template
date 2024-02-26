@@ -9,13 +9,13 @@ import { PlusIcon } from "@heroicons/react/20/solid"
 import { ArrowUpCircleIcon } from "@heroicons/react/24/outline"
 import { createClient } from "~/util/supabase/client"
 import { api } from "~/trpc/react"
+import { useFileUpload } from "~/hooks/useFileUpload"
 
-interface FilePreview {
+export interface FilePreview {
     file: File;
     name: string;
-    getUrl: string
-    size: number
-    error?: boolean | undefined
+    blobUrl: string;
+    error?: boolean | undefined;
 }
 
 // Reducer action(s)
@@ -28,7 +28,6 @@ export interface InputProps
 
 const ImageUpload = forwardRef<HTMLInputElement, InputProps>(
     ({ className, ...props }, ref) => {
-        const client = createClient()
         const [dragActive, setDragActive] = useState<boolean>()
         const [fileInput, fileDispatch] = useReducer((state: FilePreview[], action: ReturnType<typeof addFilesToInput>) => {
             if (state.length + action.payload.length > 10) {
@@ -37,6 +36,7 @@ const ImageUpload = forwardRef<HTMLInputElement, InputProps>(
             }
             return [...state, ...action.payload]
         }, [])
+        const {filesToUpload, uploadFiles} = useFileUpload(fileInput)
 
         const noInput = fileInput.length === 0
 
@@ -74,8 +74,8 @@ const ImageUpload = forwardRef<HTMLInputElement, InputProps>(
             const filesWithUrl = validFiles.map((file) => {
                 const { name, size } = file
                 // Change to blob in the future
-                const getUrl = URL.createObjectURL(file)
-                return { name, size, getUrl, file }
+                const blobUrl = URL.createObjectURL(file)
+                return { name, size, blobUrl, file }
             })
 
             addFilesToState(filesWithUrl);
@@ -93,17 +93,13 @@ const ImageUpload = forwardRef<HTMLInputElement, InputProps>(
             e.dataTransfer.clearData()
         }
 
-        const uploadToServer = api.image.upload.useMutation({
-            onSuccess: () => {
-                console.log('success')
-            }
-        })
 
         function uploadImages() {
             if (fileInput && fileInput[0]) {
-                fileInput.map(async (file) => {
-                    uploadToServer.mutate({name: file.name, file: file.file})
-        
+                fileInput.map(async (filePreview) => {
+                    // console.log(filePreview.file)
+                    console.log(typeof filePreview.file)
+                    // uploadToServer.mutate({name: filePreview.name, file: filePreview.file})
                 })
             }
         }
@@ -211,13 +207,15 @@ const ImageUpload = forwardRef<HTMLInputElement, InputProps>(
                                                     </tr>
                                                 </thead>
                                                 <tbody className="divide-y divide-slate-300">
-                                                    {fileInput.map((file, index) => (
+                                                    {filesToUpload.map((file, index) => (
                                                         <ImagePreview
                                                             key={index}
-                                                            //   error={file.error}
-                                                            url={file.getUrl}
-                                                            name={file.name}
-                                                            size={file.size}
+                                                            file={file.file}
+                                                            url={file.blobUrl}
+                                                            isLoading={file.isLoading}
+                                                            isError={file.isError}
+                                                            isSuccess={file.isSuccess}
+                                                            // filesToUpload={filesToUpload}
                                                         />
                                                     ))}
                                                 </tbody>
@@ -256,7 +254,7 @@ const ImageUpload = forwardRef<HTMLInputElement, InputProps>(
                 <button
                     type="button"
                     className="flex items-center gap-x-2 rounded-md bg-teal-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    onClick={() => uploadImages()}
+                    onClick={() => uploadFiles()}
                 >
                     <ArrowUpCircleIcon className="w-6" />
                     Upload Images
