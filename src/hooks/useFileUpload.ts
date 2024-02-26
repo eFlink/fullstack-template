@@ -18,22 +18,20 @@ export function useFileUpload(filePreview: FilePreview[]) {
             isError: false,
             isSuccess: false
         }));
-
         setFiles(updatedFiles)
     }, [filePreview])
     const client = createClient()
     const createSignedUploadUrl = api.image.createSignedUploadUrl.useMutation()
 
     const uploadFiles = async () => {
-        for (let file of filesToUpload) {
+        for (let i = 0; i < filesToUpload.length; i++) {
+            const file = filesToUpload[i];
             try {
-                const updatedFiles = filesToUpload.map((f) => {
-                    if (f === file) {
-                        return { ...f, isLoading: true };
-                    }
-                    return f;
-                });
-                setFiles(updatedFiles);
+                if (!file) {
+                    throw new Error("File Not Present")
+                }
+                setFiles(prevFiles => prevFiles.map((f, idx) => idx === i ? { ...f, isLoading: true } : f));
+
                 const signedUploadUrl = await createSignedUploadUrl.mutateAsync({name: file.name})
                 if (signedUploadUrl.error) {
                     throw new Error("Upload error")
@@ -42,27 +40,14 @@ export function useFileUpload(filePreview: FilePreview[]) {
                 if (error) {
                     throw new Error("Upload error")
                 } else {
-                    const updatedFiles = filesToUpload.map((f) => {
-                        if (f === file) {
-                            return { ...f, isSuccess: true, isLoading: false };
-                        }
-                        return f;
-                    });
-                    setFiles(updatedFiles);
+                    setFiles(prevFiles => prevFiles.map((f, idx) => idx === i ? { ...f, isSuccess: true, isLoading: false } : f));
                 }
             } catch (error) {
-                const updatedFiles = filesToUpload.map((f) => {
-                    if (f === file) {
-                        return { ...f, isError: true, isLoading: false };
-                    }
-                    return f;
-                });
-                setFiles(updatedFiles);
+                setFiles(prevFiles => prevFiles.map((f, idx) => idx === i ? { ...f, isError: true, isLoading: false } : f));
             }
         }
     }
 
-    // return { state: { loading, isError, success }, uploadFile}
     return {uploadFiles, filesToUpload}
 
 }

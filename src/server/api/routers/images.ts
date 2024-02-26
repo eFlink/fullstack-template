@@ -8,7 +8,6 @@ export const imageRouter = createTRPCRouter({
         name: z.string().min(1),
     }))
     .mutation(async ({ ctx, input }) => {
-      // simulate a slow db call
       return await ctx.supabase.storage.from('test').createSignedUploadUrl(input.name)
     }),
 });

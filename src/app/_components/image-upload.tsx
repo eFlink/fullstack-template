@@ -30,7 +30,7 @@ const ImageUpload = forwardRef<HTMLInputElement, InputProps>(
     ({ className, ...props }, ref) => {
         const [dragActive, setDragActive] = useState<boolean>()
         const [fileInput, fileDispatch] = useReducer((state: FilePreview[], action: ReturnType<typeof addFilesToInput>) => {
-            if (state.length + action.payload.length > 10) {
+            if (state.length + action.payload.length > 5) {
                 // Display Toast
                 return state
             }
@@ -215,7 +215,6 @@ const ImageUpload = forwardRef<HTMLInputElement, InputProps>(
                                                             isLoading={file.isLoading}
                                                             isError={file.isError}
                                                             isSuccess={file.isSuccess}
-                                                            // filesToUpload={filesToUpload}
                                                         />
                                                     ))}
                                                 </tbody>
