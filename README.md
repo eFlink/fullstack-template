@@ -1,6 +1,6 @@
 # FlinkStack
 
-This template is designed to jumpstart your full-stack development process using Node.js, Supabase, and other modern development tools. It streamlines the setup for both the backend and frontend, allowing you to focus on building your application.
+This template is designed to jumpstart your full-stack development process using Next.js, Supabase, tRPC, tailwind and other technologies. It streamlines the setup for both the backend and frontend, allowing you to focus on building your application. Already has built in authentication, database management and file uploading.
 
 ## Getting Started
 
@@ -54,3 +54,9 @@ Finally, run the development server with:
 pnpm dev
 ```
 Your application should now be running and accessible locally.
+
+## Resources
+- https://supabase.com
+- https://orm.drizzle.team
+- https://trpc.io
+- https://tailwindcss.com
