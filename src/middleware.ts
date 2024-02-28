@@ -9,20 +9,15 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await client.auth.getUser()
 
-  // If the user is not signed in and tries to access a protected route
+  // // If the user is not signed in and tries to access a protected route
   // if (!user && request.nextUrl.pathname !== '/login') {
-  //   const returnUrl = encodeURIComponent(request.nextUrl.pathname);
+  //   // const returnUrl = encodeURIComponent(request.nextUrl.pathname);
   //   return NextResponse.redirect(new URL(`/login`, request.url));
   // }
 
-  // // // If user is signed in and attempts to access the login page, redirect to /dashboard
+  // // // If user is signed in and attempts to access the login page, redirect to Home
   // if (user && request.nextUrl.pathname === '/login') {
   //   return NextResponse.redirect(new URL('/', request.url));
-  // }
-
-  // // If user is signed in and the current path is /, redirect to /dashboard or /account
-  // if (user && request.nextUrl.pathname === '/') {
-  //   return NextResponse.redirect(new URL('/', request.url)); // Or /account based on your preference
   // }
 
   return await updateSession(request)

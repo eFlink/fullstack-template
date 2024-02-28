@@ -1,14 +1,12 @@
 "use client"
 
 import clsx from "clsx"
-import { useReducer, DragEvent, useState, ChangeEvent, forwardRef } from "react"
+import { useReducer, type DragEvent, useState, type ChangeEvent, forwardRef } from "react"
 import { MAX_FILE_SIZE } from "~/config/image"
 import { validateFileType } from "~/util/helper"
 import { ImagePreview } from "./image-preview"
 import { PlusIcon } from "@heroicons/react/20/solid"
 import { ArrowUpCircleIcon } from "@heroicons/react/24/outline"
-import { createClient } from "~/util/supabase/client"
-import { api } from "~/trpc/react"
 import { useFileUpload } from "~/hooks/useFileUpload"
 
 export interface FilePreview {
@@ -23,22 +21,19 @@ const addFilesToInput = () => ({
     payload: [] as FilePreview[],
 })
 
-export interface InputProps
-    extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> { }
-
-const ImageUpload = forwardRef<HTMLInputElement, InputProps>(
-    ({ className, ...props }, ref) => {
+const ImageUpload = forwardRef<HTMLInputElement, Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'>>(
+    ({ ...props }, ref) => {
         const [dragActive, setDragActive] = useState<boolean>()
-        const [fileInput, fileDispatch] = useReducer((state: FilePreview[], action: ReturnType<typeof addFilesToInput>) => {
+        const [fileState, fileDispatch] = useReducer((state: FilePreview[], action: ReturnType<typeof addFilesToInput>) => {
             if (state.length + action.payload.length > 5) {
                 // Display Toast
                 return state
             }
             return [...state, ...action.payload]
         }, [])
-        const {filesToUpload, uploadFiles} = useFileUpload(fileInput)
+        const {filesToUpload, uploadFiles} = useFileUpload(fileState)
 
-        const noInput = fileInput.length === 0
+        const noInput = fileState.length === 0
 
         // Handle drag events
         function handleDrag(e: DragEvent<HTMLFormElement | HTMLDivElement>) {
@@ -56,7 +51,7 @@ const ImageUpload = forwardRef<HTMLInputElement, InputProps>(
         }
 
         function uploadToClient(eventFiles: FileList | null) {
-            if (eventFiles === null || !eventFiles[0]) {
+            if (eventFiles === null || eventFiles[0]) {
                 // Toast Message
                 return
             }
@@ -66,7 +61,6 @@ const ImageUpload = forwardRef<HTMLInputElement, InputProps>(
                 // Toast Message
                 // Invalid File Type
                 // Only image files are allowed
-                console.log('hello')
                 return
             }
             setDragActive(false)
@@ -93,17 +87,6 @@ const ImageUpload = forwardRef<HTMLInputElement, InputProps>(
             e.dataTransfer.clearData()
         }
 
-
-        function uploadImages() {
-            if (fileInput && fileInput[0]) {
-                fileInput.map(async (filePreview) => {
-                    // console.log(filePreview.file)
-                    console.log(typeof filePreview.file)
-                    // uploadToServer.mutate({name: filePreview.name, file: filePreview.file})
-                })
-            }
-        }
-
         return (
             <form
                 onSubmit={(e) => e.preventDefault()}
@@ -117,7 +100,7 @@ const ImageUpload = forwardRef<HTMLInputElement, InputProps>(
                         { 'border-slate-400 bg-slate-300': dragActive },
                         { 'h-fit aspect-auto': !noInput },
                         { 'items-start justify-start': !noInput },
-                        { 'hover:border-gray-500 hover:bg-slate-800': noInput }
+                        { 'hover:border-gray-500 hover:bg-slate-300': noInput }
                     )}
                 >
                     <div
@@ -262,4 +245,5 @@ const ImageUpload = forwardRef<HTMLInputElement, InputProps>(
         )
     }
 )
+ImageUpload.displayName = "Image Upload"
 export default ImageUpload

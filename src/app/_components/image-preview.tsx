@@ -73,7 +73,7 @@ export function ImagePreview({
             <span className="sr-only">Loading...</span>
           </div>
           :
-          isError ? <XCircleIcon className='w-6 fill-red-500'/> : null ||
+          isError ? <XCircleIcon className='w-6 fill-red-500'/> : null ??
           isSuccess ? <CheckCircleIcon className='w-6 fill-green-500' /> : null
         }
       </td>

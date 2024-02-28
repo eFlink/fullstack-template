@@ -1,9 +1,9 @@
 import { z } from "zod";
 
-import { createTRPCRouter, publicProcedure, adminProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, adminProcedure } from "~/server/api/trpc";
 
 export const imageRouter = createTRPCRouter({
-  createSignedUploadUrl: publicProcedure
+  createSignedUploadUrl: adminProcedure
     .input(z.object({ 
         name: z.string().min(1),
     }))

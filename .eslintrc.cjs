@@ -31,6 +31,8 @@ const config = {
         checksVoidReturn: { attributes: false },
       },
     ],
+    "@typescript-eslint/no-unsafe-argument": "warn",
+    "@typescript-eslint/no-redundant-type-constituents": "warn"
   },
 };
 
