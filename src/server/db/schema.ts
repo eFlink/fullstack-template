@@ -27,14 +27,14 @@ export const users = authSchema.table("users", {
 	id: uuid("id").primaryKey().notNull(),
 });
 
-export const post = pgTable("post", {
+export const post = createTable("post", {
 	id: serial("id").primaryKey().notNull(),
 	name: varchar("name", { length: 256 }),
 	createdAt: timestamp("created_at", { mode: 'string' }).defaultNow().notNull(),
 	updatedAt: timestamp("updatedAt", { mode: 'string' }),
 });
 
-export const profile = pgTable("profile", {
+export const profile = createTable("profile", {
 	id: uuid("id").primaryKey().notNull().references(() => users.id),
 	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
 });
