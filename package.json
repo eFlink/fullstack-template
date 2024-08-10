@@ -14,6 +14,7 @@
     "@vueuse/core": "^10.11.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "lucide-vue-next": "^0.427.0",
     "nuxt": "^3.12.4",
     "radix-vue": "^1.9.3",
     "shadcn-nuxt": "^0.10.4",
@@ -23,6 +24,9 @@
   },
   "packageManager": "pnpm@9.7.0+sha512.dc09430156b427f5ecfc79888899e1c39d2d690f004be70e05230b72cb173d96839587545d09429b55ac3c429c801b4dc3c0e002f653830a420fa2dd4e3cf9cf",
   "devDependencies": {
+    "@iconify-json/radix-icons": "^1.1.15",
+    "@iconify/vue": "^4.1.2",
+    "@nuxtjs/color-mode": "^3.4.2",
     "@nuxtjs/tailwindcss": "^6.12.1",
     "typescript": "^5.5.4"
   }
