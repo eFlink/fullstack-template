@@ -7,6 +7,7 @@
   - Consider the ease of customization, community support, and available features.
 - [x] **Install Shadcn**
 - [x] **Integrate tRPC**: Set up tRPC for end-to-end type-safe APIs.
+- [ ] **Add env**: Set up env validation
 - [ ] **Add Drizzle**: Add drizzle as a postgres ORM
 - [ ] **Add Supabase Postgress**: Add supabase postgres DB
 - [ ] **Add Supabase File management**: Add file uploading to supabase
