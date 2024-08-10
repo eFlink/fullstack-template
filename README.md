@@ -1,75 +1,13 @@
-# Nuxt 3 Minimal Starter
+# FullStack template
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## TODOs
 
-## Setup
-
-Make sure to install the dependencies:
-
-```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+- [x] **UI Framework Selection**: Decide between [PrimeVue](https://primevue.org/) and [shadcn-vue](https://www.shadcn-vue.com/).
+  - Evaluate the component libraries based on project requirements.
+  - Consider the ease of customization, community support, and available features.
+- [ ] **Install Shadcn**
+- [ ] **Integrate tRPC**: Set up tRPC for end-to-end type-safe APIs.
+- [ ] **Add Drizzle**: Add drizzle as a postgres ORM
+- [ ] **Add Supabase Postgress**: Add supabase postgres DB
+- [ ] **Add Supabase File management**: Add file uploading to supabase
+- [ ] **Add Supabase Authentication**: Add user authentication to user pages and middleware - also integrate with DB
