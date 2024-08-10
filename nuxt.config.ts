@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     "shadcn-nuxt",
     '@nuxtjs/color-mode'
   ],
+  // Shadcn-vue
   shadcn: {
     /**
      * Prefix for all the imported component
@@ -18,7 +19,12 @@ export default defineNuxtConfig({
      */
     componentDir: './components/ui'
   },  
+  // Color toggle
   colorMode: {
     classSuffix: ''
+  },
+  // tRPC
+  build: {
+    transpile: ['trpc-nuxt']
   }
 })
