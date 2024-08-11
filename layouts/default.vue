@@ -35,22 +35,22 @@ import { ColorToggle } from '@/components/ui/color-toggle'
               Dashboard
             </NuxtLink>
             <NuxtLink
-              to="/"
+              to="file-upload"
               class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
             >
               <ShoppingCart class="h-4 w-4" />
-              Orders
+              File Upload
               <Badge class="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
                 6
               </Badge>
             </NuxtLink>
-            <a
-              href="#"
+            <NuxtLink
+              href="test"
               class="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
             >
               <Package class="h-4 w-4" />
-              Products
-            </a>
+              Test
+          </NuxtLink>
             <a
               href="#"
               class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
@@ -177,22 +177,24 @@ import { ColorToggle } from '@/components/ui/color-toggle'
           </form>
         </div>
         <ColorToggle />
-        <DropdownMenu>
-          <DropdownMenuTrigger as-child>
-            <Button variant="secondary" size="icon" class="rounded-full">
-              <CircleUser class="h-5 w-5" />
-              <span class="sr-only">Toggle user menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuItem>Support</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Logout</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <ClientOnly>
+          <DropdownMenu>
+            <DropdownMenuTrigger as-child>
+              <Button variant="secondary" size="icon" class="rounded-full">
+                <CircleUser class="h-5 w-5" />
+                <span class="sr-only">Toggle user menu</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Settings</DropdownMenuItem>
+              <DropdownMenuItem>Support</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Logout</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </ClientOnly>
       </header>
       <main class="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 max-h-[calc(100vh-3.5rem)]">
         <slot />

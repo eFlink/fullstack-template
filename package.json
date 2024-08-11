@@ -12,6 +12,7 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@nuxt/image": "^1.7.0",
     "@radix-icons/vue": "^1.0.0",
     "@supabase/supabase-js": "^2.45.1",
     "@tanstack/vue-query": "^5.51.21",

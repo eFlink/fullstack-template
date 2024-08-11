@@ -37,6 +37,8 @@ export const publicProcedure = t.procedure;
  */
 const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
   const user = await ctx.supabase.auth.getUser();
+  console.log(user.data.user)
+  console.log("HELLO")
   if (user.error) {
     throw new TRPCError({
       code: "UNAUTHORIZED"

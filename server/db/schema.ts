@@ -31,3 +31,11 @@ export const post = pgTable("post", {
 	createdAt: timestamp("created_at", { mode: 'string' }).defaultNow().notNull(),
 	updatedAt: timestamp("updatedAt", { mode: 'string' }),
 });
+
+export const image = pgTable("image", {
+	id: serial("id").primaryKey().notNull(),
+	name: varchar("name", { length: 256 }),
+	path: varchar("path", { length: 256 }),
+	createdAt: timestamp("created_at", { mode: 'string' }).defaultNow().notNull(),
+	updatedAt: timestamp("updatedAt", { mode: 'string' }),
+});

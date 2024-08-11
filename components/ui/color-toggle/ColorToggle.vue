@@ -7,6 +7,8 @@ const colorMode = useColorMode()
 </script>
 
 <template>
+  <ClientOnly>
+
   <DropdownMenu>
     <DropdownMenuTrigger as-child>
       <Button variant="outline">
@@ -27,4 +29,5 @@ const colorMode = useColorMode()
       </DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>
+  </ClientOnly>
 </template>
