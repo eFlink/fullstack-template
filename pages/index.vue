@@ -5,22 +5,22 @@ const { $client } = useNuxtApp()
 
 const input = ref<string>()
 
-const hello = $client.hello.useQuery({
-  text: 'user'
-})
+/**
+ * Query declarations
+ */
+const getPosts = $client.getPosts.useQuery()
+const createPost = $client.createPost.useMutation()
 
-const mutation = $client.mutation.useMutation()
 </script>
 
 <template>
-  <div>
-    <div>
-      {{ hello.data.value ? hello.data.value.greeting : 'Loading' }}
-    </div>
+  <div class="w-full flex flex-col justify-center items-center gap-y-6">
     <div class="flex space-x-4 max-w-xl">
       <Input v-model="input" />
+      <!-- Add form validation to not need to put ! -->
       <Button 
-        @click="mutation.mutate({text: input ?? 'Empty'})" 
+        :disabled="!input"
+        @click="createPost.mutate({name: input!})" 
         size="icon"
         variant="outline"
       >
@@ -28,7 +28,13 @@ const mutation = $client.mutation.useMutation()
     </Button>
     </div>
     <div>
-      {{ mutation.status.value === 'success' ? mutation.data.value : 'not queried' }}
+      <h2>Posts</h2>
+    </div>
+    <div v-if="getPosts.status.value === 'success'" class="space-y-2">
+      <div v-for="post in getPosts.data.value" class="flex space-x-4">
+        <p>{{ post.id }}</p>
+        <p>{{ post.name }}</p>
+      </div>
     </div>
   </div>
 </template>

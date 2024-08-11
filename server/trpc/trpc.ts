@@ -1,3 +1,6 @@
+import { initTRPC, type inferAsyncReturnType } from '@trpc/server'
+import { createContext } from './context';
+
 /**
  * This is your entry point to setup the root configuration for tRPC on the server.
  * - `initTRPC` should only be used once per app.
@@ -7,9 +10,9 @@
  * @see https://trpc.io/docs/server/routers
  * @see https://trpc.io/docs/server/procedures
  */
-import { initTRPC } from '@trpc/server'
 
-const t = initTRPC.create()
+const t = initTRPC.context<typeof createContext>().create();
+
 
 /**
  * Unprotected procedure

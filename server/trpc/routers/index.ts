@@ -1,25 +1,27 @@
 import { z } from 'zod'
 import { publicProcedure, router } from '../trpc'
+import { post } from '~/server/db/schema'
 
 export const appRouter = router({
-  hello: publicProcedure
-    .input(
-      z.object({
-        text: z.string().nullish(),
-      }),
-    )
-    .query(({ input }) => {
-      return {
-        greeting: `hello ${input?.text ?? 'world'}`,
-      }
+  getPosts: publicProcedure
+    .query( async ({ ctx }) => {
+      const posts = await ctx.db.select({
+        id: post.id,
+        name: post.name
+      }).from(post).limit(10)
+      return posts
     }),
-  mutation: publicProcedure
+  createPost: publicProcedure
   .input(
     z.object({
-      text: z.string()
+      name: z.string()
     })
-  ).mutation(({ input }) => {
-    return input.text
+  )
+  .mutation( async ({ input, ctx }) => {
+    const createPost = await ctx.db.insert(post).values({
+      name: input.name
+    })
+    return createPost
   })
 })
 

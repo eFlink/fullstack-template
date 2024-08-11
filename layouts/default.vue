@@ -194,7 +194,7 @@ import { ColorToggle } from '@/components/ui/color-toggle'
           </DropdownMenuContent>
         </DropdownMenu>
       </header>
-      <main class="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+      <main class="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 max-h-[calc(100vh-3.5rem)]">
         <slot />
       </main>
     </div>
