@@ -7,8 +7,9 @@
   - Consider the ease of customization, community support, and available features.
 - [x] **Install Shadcn**
 - [x] **Integrate tRPC**: Set up tRPC for end-to-end type-safe APIs.
-- [ ] **Add env**: Set up env validation
-- [ ] **Add Drizzle**: Add drizzle as a postgres ORM
-- [ ] **Add Supabase Postgress**: Add supabase postgres DB
+- [x] **Add env**: Set up env validation
+- [x] **Add Drizzle**: Add drizzle as a postgres ORM
+- [x] **Add Supabase Postgress**: Add supabase postgres DB
+- [ ] **Add callbacks on useMutation**: Currently there is no onSuccess... as an option in useMutation
 - [ ] **Add Supabase File management**: Add file uploading to supabase
 - [ ] **Add Supabase Authentication**: Add user authentication to user pages and middleware - also integrate with DB
