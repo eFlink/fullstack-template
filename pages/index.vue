@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { SendHorizonalIcon } from 'lucide-vue-next';
+import { useMutation } from '@tanstack/vue-query'
 
 const { $client } = useNuxtApp()
 
@@ -9,7 +10,16 @@ const input = ref<string>()
  * Query declarations
  */
 const getPosts = $client.getPosts.useQuery()
+
+/**
+ * useMutation pattern defined
+ */
 const createPost = $client.createPost.useMutation()
+watch(createPost.status, () => {
+  if (createPost.status.value === 'success') {
+    getPosts.refresh()
+  }
+})
 
 </script>
 
@@ -20,7 +30,7 @@ const createPost = $client.createPost.useMutation()
       <!-- Add form validation to not need to put ! -->
       <Button 
         :disabled="!input"
-        @click="createPost.mutate({name: input!})" 
+        @click="() => createPost.mutate({name: input!})" 
         size="icon"
         variant="outline"
       >

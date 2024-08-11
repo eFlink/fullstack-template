@@ -1,4 +1,4 @@
-import { initTRPC, type inferAsyncReturnType } from '@trpc/server'
+import { initTRPC } from '@trpc/server'
 import { createContext } from './context';
 
 /**

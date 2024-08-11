@@ -1,4 +1,4 @@
-import { initTRPC, type inferAsyncReturnType } from '@trpc/server'
+import type { inferAsyncReturnType } from '@trpc/server'
 import { db } from "~/server/db";
 
 /**
