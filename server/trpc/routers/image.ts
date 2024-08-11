@@ -9,7 +9,14 @@ export const imageRouter = router({
                 name: image.name,
                 path: image.path
             }).from(image)
-            return images
+            const newImages = await Promise.all(images.map(async (value) => {
+                const signedUrl = await ctx.supabase.storage.from("test").createSignedUrl(value.path!, 120)
+                return {
+                    name: value.name,
+                    url: signedUrl.data?.signedUrl
+                }
+            }))
+            return newImages
         }),
     createImage: publicProcedure
         .input(

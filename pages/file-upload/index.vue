@@ -10,33 +10,6 @@ const { $client } = useNuxtApp()
 const getImages = $client.image.getImages.useQuery()
 const createImage = $client.image.createImage.useMutation()
 
-interface ImageData {
-    name: string | null;
-    url: string;
-}
-
-const images = ref<ImageData[]>([])
-
-watchEffect(async () => {
-    if (getImages.data.value) {
-        images.value = await Promise.all(
-            getImages.data.value.map(async (value) => {
-                const urlResponse = await supabase.storage.from("test").createSignedUrl(value.path!, 120)
-                let url = ""
-                if (urlResponse.data) {
-                    url = urlResponse.data.signedUrl
-                }
-                return {
-                    name: value.name,
-                    url: url
-                }
-            })
-        )
-    } else {
-        images.value = []
-    }
-})
-
 watch(() => createImage.status.value, () => {
     if (createImage.status.value === "success") {
         getImages.refresh()
@@ -90,7 +63,7 @@ const uploadImage = async () => {
     </h3>
     <ClientOnly>
         <div v-if="getImages.status.value === 'success'" class="grid grid-cols-3 gap-6">
-            <div v-for="image in images">
+            <div v-for="image in getImages.data.value">
                 <img :src="image.url" class="w-full h-full" />
             </div>
         </div>
