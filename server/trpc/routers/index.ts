@@ -2,13 +2,13 @@ import { z } from 'zod'
 import { publicProcedure, router } from '../trpc'
 import { post } from '~/server/db/schema'
 
-export const appRouter = router({
+export const postRouter = router({
   getPosts: publicProcedure
     .query( async ({ ctx }) => {
       const posts = await ctx.db.select({
         id: post.id,
         name: post.name
-      }).from(post).limit(10)
+      }).from(post)
       return posts
     }),
   createPost: publicProcedure
@@ -24,6 +24,3 @@ export const appRouter = router({
     return createPost
   })
 })
-
-// export type definition of API
-export type AppRouter = typeof appRouter

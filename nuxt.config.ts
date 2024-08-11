@@ -5,7 +5,8 @@ export default defineNuxtConfig({
   modules: [
     "@nuxtjs/tailwindcss", 
     "shadcn-nuxt",
-    '@nuxtjs/color-mode'
+    '@nuxtjs/color-mode',
+    '@nuxtjs/supabase'
   ],
   // Shadcn-vue
   shadcn: {
@@ -26,5 +27,10 @@ export default defineNuxtConfig({
   // tRPC
   build: {
     transpile: ['trpc-nuxt']
+  },
+  supabase: {
+    url: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    key: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    redirect: false
   }
 })

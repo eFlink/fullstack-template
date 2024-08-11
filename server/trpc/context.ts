@@ -1,5 +1,6 @@
 import type { inferAsyncReturnType } from '@trpc/server'
 import { db } from "~/server/db";
+import { supabase } from '../supabase';
 
 /**
  * Creates context for an incoming request
@@ -8,6 +9,7 @@ import { db } from "~/server/db";
 export const createContext = async () => {
   return {
     db,
+    supabase
   };
 };
 

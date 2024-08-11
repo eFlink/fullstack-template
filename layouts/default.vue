@@ -27,15 +27,15 @@ import { ColorToggle } from '@/components/ui/color-toggle'
         </div>
         <div class="flex-1">
           <nav class="grid items-start px-2 text-sm font-medium lg:px-4">
-            <a
-              href="/"
+            <NuxtLink
+              to="dashboard"
               class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
             >
               <Home class="h-4 w-4" />
               Dashboard
-            </a>
-            <a
-              href="#"
+            </NuxtLink>
+            <NuxtLink
+              to="/"
               class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
             >
               <ShoppingCart class="h-4 w-4" />
@@ -43,7 +43,7 @@ import { ColorToggle } from '@/components/ui/color-toggle'
               <Badge class="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
                 6
               </Badge>
-            </a>
+            </NuxtLink>
             <a
               href="#"
               class="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"

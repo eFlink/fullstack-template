@@ -1,9 +1,10 @@
+<script setup lang="ts">
+const user = useSupabaseUser()
+</script>
+
 <template>
-  <div>
-    <!-- <NuxtRouteAnnouncer />
-    <NuxtWelcome /> -->
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
-  </div>
+  <NuxtLayout v-if="user">
+    <NuxtPage />
+  </NuxtLayout>
+  <AuthLogin v-else/>
 </template>
