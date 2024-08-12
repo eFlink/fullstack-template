@@ -1,3 +1,5 @@
+import env from "./env";
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
@@ -30,8 +32,8 @@ export default defineNuxtConfig({
     transpile: ['trpc-nuxt']
   },
   supabase: {
-    url: process.env.NEXT_PUBLIC_SUPABASE_URL,
-    key: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    url: env.SUPABASE_URL,
+    key: env.SUPABASE_ANON_KEY,
     redirect: false
   }
 })
